@@ -1,0 +1,28 @@
+
+
+
+  <button mat-stroked-button (click)="toggleLoading()">Global overlay</button>
+
+  <div>
+    <button mat-stroked-button (click)="cmpLoading1 = !cmpLoading1">Component 1</button>
+    <button mat-stroked-button (click)="cmpLoading2 = !cmpLoading2">Component 2</button>
+    <button mat-stroked-button (click)="cmpLoading3 = !cmpLoading3">Component 3</button>
+    <button mat-stroked-button (click)="cmpLoading4 = !cmpLoading4">Component 4</button>
+  </div>
+
+  <div>
+    <app-test [ngxMatLoading]="cmpLoading1" class="cmpLoading1" #loading1="ngxMatLoading">1</app-test>
+    <app-test [ngxMatLoading]="cmpLoading2" class="cmpLoading2">2</app-test>
+    <app-test [ngxMatLoading]="cmpLoading3" class="cmpLoading3">3</app-test>
+    <app-test [ngxMatLoading]="cmpLoading4" class="cmpLoading4">4</app-test>
+
+    <div class="example-box" cdkDrag>
+      <h2>Drag me </h2>
+      <div [ngxMatLoading]="cmpLoading1" style="height: 150px;">
+        lorem ipsum dolor sit amet
+      </div>
+    </div>
+
+  </div>
+
+  <div style="height: 1500px;"></div>
