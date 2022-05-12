@@ -11,7 +11,6 @@ import { DOCUMENT } from "@angular/common";
 import { BooleanInput } from "@angular/cdk/coercion";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { OverlayRef, } from "@angular/cdk/overlay";
-import { Subject } from "rxjs";
 
 import { NgxMatLoadingComponent } from "./ngx-mat-loading.component";
 import { NgxMatLoadingElementOverlay } from "./ngx-mat-loading-element-overlay.service";
@@ -32,17 +31,24 @@ export class NgxMatLoadingDirective implements OnDestroy   {
   @Input('ngxMatLoadingOptions')
   options?: NgxMatLoadingOptions;
 
+
   get isVisible(): boolean {
     return this._isVisible;
   }
   private _isVisible: boolean = false;
 
+  /**
+   * Overlay's component reference
+   */
+  get componentRef(): ComponentRef<any> | null | undefined {
+    return this._componentRef;
+  }
+
   private _overlayRef?: OverlayRef;
-  private _overlayCmpRef?: ComponentRef<any>;
+
+  private _componentRef?: ComponentRef<any>;
 
   private _elementPosition?: string | null;
-
-  private _overlayDestroyed: Subject<void> = new Subject<void>();
 
   constructor(
     private _elementRef: ElementRef,
@@ -53,8 +59,6 @@ export class NgxMatLoadingDirective implements OnDestroy   {
   ) { }
 
   ngOnDestroy() {
-    this._overlayDestroyed.next();
-    this._overlayDestroyed.complete();
     this._overlayRef?.dispose();
   }
 
@@ -84,10 +88,10 @@ export class NgxMatLoadingDirective implements OnDestroy   {
       hasBackdrop: true
     });
 
-    this._overlayCmpRef = this._overlayRef.attach(new ComponentPortal(opts.component || NgxMatLoadingComponent));
+    this._componentRef = this._overlayRef.attach(new ComponentPortal(opts.component || NgxMatLoadingComponent));
 
     if (opts.params) {
-      const instance = this._overlayCmpRef.instance;
+      const instance = this._componentRef.instance;
       Object.keys(opts.params).forEach(k => {
         instance[k] = opts.params[k];
       })
@@ -95,7 +99,6 @@ export class NgxMatLoadingDirective implements OnDestroy   {
   }
 
   hideLoading() {
-    this._overlayDestroyed?.next();
     this._overlayRef?.dispose();
     this._restoreHostElementPosition();
     this._isVisible = false;
