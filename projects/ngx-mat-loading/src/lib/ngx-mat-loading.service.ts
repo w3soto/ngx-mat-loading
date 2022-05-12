@@ -1,4 +1,4 @@
-import { ComponentRef, Inject, Injectable, Optional } from '@angular/core';
+import { ComponentRef, Inject, Injectable, OnDestroy, Optional } from '@angular/core';
 import { Overlay, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { NgxMatLoadingComponent } from "./ngx-mat-loading.component";
@@ -8,7 +8,7 @@ import { NGX_MAT_LOADING_DEFAULT_OPTIONS, NgxMatLoadingOptions } from "./ngx-mat
 @Injectable({
   providedIn: 'root'
 })
-export class NgxMatLoadingService {
+export class NgxMatLoadingService implements OnDestroy {
 
   get isVisible(): boolean {
     return this._isVisible;
@@ -32,6 +32,10 @@ export class NgxMatLoadingService {
   ) {
   }
 
+  ngOnDestroy() {
+    this.hideLoading();
+  }
+
   showLoading(options?: NgxMatLoadingOptions) {
     if (this._isVisible) {
       return;
@@ -45,7 +49,7 @@ export class NgxMatLoadingService {
 
     this._overlayRef = this._overlay.create({
       positionStrategy: this._overlay.position().global().centerHorizontally().centerVertically(),
-      backdropClass: ['ngx-mat-loading-backdrop', opts?.backdropClass || 'cdk-overlay-dark-backdrop'],
+      backdropClass: ['ngx-mat-loading-backdrop', opts?.backdropClass || ''],
       panelClass: ['ngx-mat-loading-panel', opts?.panelClass || ''],
       hasBackdrop: true
     });

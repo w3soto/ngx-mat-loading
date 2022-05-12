@@ -1,3 +1,9 @@
+<mat-spinner
+  *ngIf="spinner"
+  class="ngx-mat-loading-spinner"
+  [diameter]="diameter"
+  [strokeWidth]="strokeWidth"></mat-spinner>
 
-  <mat-spinner *ngIf="spinner" [diameter]="diameter" [strokeWidth]="strokeWidth"></mat-spinner>
-  <div *ngIf="message">{{ message }}</div>
+<div
+  *ngIf="message"
+  class="ngx-mat-loading-message">{{ message }}</div>

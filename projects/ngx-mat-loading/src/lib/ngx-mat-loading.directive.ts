@@ -8,7 +8,7 @@ import {
   Renderer2
 } from '@angular/core';
 import { DOCUMENT } from "@angular/common";
-import { BooleanInput } from "@angular/cdk/coercion";
+import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { OverlayRef, } from "@angular/cdk/overlay";
 
@@ -24,8 +24,8 @@ import { NGX_MAT_LOADING_DEFAULT_OPTIONS, NgxMatLoadingOptions } from "./ngx-mat
 export class NgxMatLoadingDirective implements OnDestroy   {
 
   @Input('ngxMatLoading')
-  set loading(loading: BooleanInput) {
-    loading ? this.showLoading() : this.hideLoading();
+  set show(show: BooleanInput) {
+    coerceBooleanProperty(show) ? this.showLoading() : this.hideLoading();
   }
 
   @Input('ngxMatLoadingOptions')
@@ -59,7 +59,7 @@ export class NgxMatLoadingDirective implements OnDestroy   {
   ) { }
 
   ngOnDestroy() {
-    this._overlayRef?.dispose();
+    this.hideLoading();
   }
 
   showLoading(options?: NgxMatLoadingOptions) {
@@ -113,8 +113,7 @@ export class NgxMatLoadingDirective implements OnDestroy   {
       this._elementPosition = style.position;
       if (isDevMode()) {
         console.warn('[NgxMatLoading]',
-          'Element should have "relative", "absolute" or "sticky" position!',
-          this._elementRef.nativeElement)
+          'Element must have CSS position set to [relative], [absolute] or [sticky] (current value is [' + style.position + ']).')
       }
       this._renderer.setStyle(this._elementRef.nativeElement, 'position', 'relative');
     }

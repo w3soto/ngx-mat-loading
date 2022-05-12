@@ -1,22 +1,28 @@
-:host {
-
+.ngx-mat-loading {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   overflow: hidden;
+  gap: 8px;
 
-}
+  &-spinner {
+  }
 
-
-::ng-deep .ngx-mat-loading-backdrop {
-  cursor: wait;
-  * {
-    cursor: wait;
+  &-message {
+    font-size: .8em;
   }
 }
 
-::ng-deep .ngx-mat-loading-panel {
+
+.ngx-mat-loading-backdrop {
+  cursor: wait;
+  backdrop-filter: blur(1px);
+  background-color: rgba(255, 255, 255, .64);
+}
+
+
+.ngx-mat-loading-panel {
   cursor: wait;
 }
+

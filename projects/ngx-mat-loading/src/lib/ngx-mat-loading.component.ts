@@ -1,10 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 
 
 @Component({
   selector: 'ngx-mat-loading',
   templateUrl: './ngx-mat-loading.component.html',
   styleUrls: ['./ngx-mat-loading.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    'class': 'ngx-mat-loading'
+  }
 })
 export class NgxMatLoadingComponent implements OnInit {
 
