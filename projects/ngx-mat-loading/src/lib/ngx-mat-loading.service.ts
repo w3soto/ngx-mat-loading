@@ -10,10 +10,10 @@ import { NGX_MAT_LOADING_DEFAULT_OPTIONS, NgxMatLoadingOptions } from "./ngx-mat
 })
 export class NgxMatLoadingService implements OnDestroy {
 
-  get isVisible(): boolean {
-    return this._isVisible;
+  get visible(): boolean {
+    return this._visible;
   }
-  private _isVisible: boolean = false;
+  private _visible: boolean = false;
 
   /**
    * Overlay's component reference
@@ -37,10 +37,10 @@ export class NgxMatLoadingService implements OnDestroy {
   }
 
   showLoading(options?: NgxMatLoadingOptions) {
-    if (this._isVisible) {
+    if (this._visible) {
       return;
     }
-    this._isVisible = true;
+    this._visible = true;
 
     const opts = {
       ...this._defaults,
@@ -58,15 +58,13 @@ export class NgxMatLoadingService implements OnDestroy {
 
     if (opts.params) {
       const instance = this._componentRef.instance;
-      Object.keys(opts.params).forEach(k => {
-        instance[k] = opts.params[k];
-      })
+      Object.keys(opts.params).forEach(k => instance[k] = opts.params[k])
     }
   }
 
   hideLoading() {
     this._overlayRef?.dispose();
-    this._isVisible = false;
+    this._visible = false;
   }
 
 }

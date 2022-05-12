@@ -31,11 +31,10 @@ export class NgxMatLoadingDirective implements OnDestroy   {
   @Input('ngxMatLoadingOptions')
   options?: NgxMatLoadingOptions;
 
-
-  get isVisible(): boolean {
-    return this._isVisible;
+  get visible(): boolean {
+    return this._visible;
   }
-  private _isVisible: boolean = false;
+  private _visible: boolean = false;
 
   /**
    * Overlay's component reference
@@ -63,10 +62,10 @@ export class NgxMatLoadingDirective implements OnDestroy   {
   }
 
   showLoading(options?: NgxMatLoadingOptions) {
-    if (this._isVisible) {
+    if (this._visible) {
       return;
     }
-    this._isVisible = true;
+    this._visible = true;
 
     // fix position
     this._setHostElementPosition();
@@ -92,16 +91,14 @@ export class NgxMatLoadingDirective implements OnDestroy   {
 
     if (opts.params) {
       const instance = this._componentRef.instance;
-      Object.keys(opts.params).forEach(k => {
-        instance[k] = opts.params[k];
-      })
+      Object.keys(opts.params).forEach(k => instance[k] = opts.params[k])
     }
   }
 
   hideLoading() {
     this._overlayRef?.dispose();
     this._restoreHostElementPosition();
-    this._isVisible = false;
+    this._visible = false;
   }
 
   _setHostElementPosition() {
