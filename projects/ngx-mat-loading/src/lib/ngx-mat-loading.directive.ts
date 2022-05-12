@@ -38,7 +38,7 @@ export class NgxMatLoadingDirective implements OnDestroy   {
   private _isVisible: boolean = false;
 
   private _overlayRef?: OverlayRef;
-  private _overlayCmpRef?: ComponentRef<NgxMatLoadingComponent>;
+  private _overlayCmpRef?: ComponentRef<any>;
 
   private _elementPosition?: string | null;
 
@@ -58,7 +58,7 @@ export class NgxMatLoadingDirective implements OnDestroy   {
     this._overlayRef?.dispose();
   }
 
-  showLoading() {
+  showLoading(options?: NgxMatLoadingOptions) {
     if (this._isVisible) {
       return;
     }
@@ -67,9 +67,10 @@ export class NgxMatLoadingDirective implements OnDestroy   {
     // fix position
     this._setHostElementPosition();
 
-    const options = {
+    const opts = {
       ...this._defaults,
-      ...this.options
+      ...this.options,
+      ...options
     };
 
     // add overlay
@@ -78,15 +79,19 @@ export class NgxMatLoadingDirective implements OnDestroy   {
         .global()
         .centerHorizontally()
         .centerVertically(),
-      backdropClass: ['ngx-mat-loading-backdrop', options?.backdropClass || 'cdk-overlay-dark-backdrop'],
-      panelClass: ['ngx-mat-loading-panel', options?.panelClass || ''],
+      backdropClass: ['ngx-mat-loading-backdrop', opts?.backdropClass || 'cdk-overlay-dark-backdrop'],
+      panelClass: ['ngx-mat-loading-panel', opts?.panelClass || ''],
       hasBackdrop: true
     });
 
-    this._overlayCmpRef = this._overlayRef.attach(new ComponentPortal(NgxMatLoadingComponent));
+    this._overlayCmpRef = this._overlayRef.attach(new ComponentPortal(opts.component || NgxMatLoadingComponent));
 
-    this._overlayCmpRef.instance.spinner = options.spinner ?? true;
-    this._overlayCmpRef.instance.message = options.message ?? '';
+    if (opts.params) {
+      const instance = this._overlayCmpRef.instance;
+      Object.keys(opts.params).forEach(k => {
+        instance[k] = opts.params[k];
+      })
+    }
   }
 
   hideLoading() {

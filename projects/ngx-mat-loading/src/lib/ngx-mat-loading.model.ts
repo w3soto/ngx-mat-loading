@@ -1,4 +1,5 @@
 import { InjectionToken } from "@angular/core";
+import { ComponentType } from "@angular/cdk/portal";
 
 
 export const NGX_MAT_LOADING_DEFAULT_OPTIONS: InjectionToken<NgxMatLoadingOptions>
@@ -8,6 +9,6 @@ export const NGX_MAT_LOADING_DEFAULT_OPTIONS: InjectionToken<NgxMatLoadingOption
 export interface NgxMatLoadingOptions {
   backdropClass?: string;
   panelClass?: string;
-  message?: string;
-  spinner?: boolean;
+  component?: ComponentType<any>,
+  params?: any
 }

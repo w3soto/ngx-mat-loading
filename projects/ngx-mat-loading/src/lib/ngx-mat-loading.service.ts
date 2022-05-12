@@ -11,7 +11,7 @@ import { NGX_MAT_LOADING_DEFAULT_OPTIONS, NgxMatLoadingOptions } from "./ngx-mat
 export class NgxMatLoadingService {
 
   private _overlayRef?: OverlayRef;
-  private _overlayCmpRef?: ComponentRef<NgxMatLoadingComponent>;
+  private _overlayCmpRef?: ComponentRef<any>;
 
   get isVisible(): boolean {
     return this._isVisible;
@@ -42,10 +42,14 @@ export class NgxMatLoadingService {
       hasBackdrop: true
     });
 
-    this._overlayCmpRef = this._overlayRef.attach(new ComponentPortal(NgxMatLoadingComponent));
+    this._overlayCmpRef = this._overlayRef.attach(new ComponentPortal(opts.component || NgxMatLoadingComponent));
 
-    this._overlayCmpRef.instance.spinner = opts.spinner ?? true;
-    this._overlayCmpRef.instance.message = opts.message ?? '';
+    if (opts.params) {
+      const instance = this._overlayCmpRef.instance;
+      Object.keys(opts.params).forEach(k => {
+        instance[k] = opts.params[k];
+      })
+    }
   }
 
   hideLoading() {
