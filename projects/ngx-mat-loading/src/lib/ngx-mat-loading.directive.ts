@@ -7,6 +7,7 @@ import {
   OnDestroy, Optional,
   Renderer2
 } from '@angular/core';
+import { DOCUMENT } from "@angular/common";
 import { BooleanInput } from "@angular/cdk/coercion";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { OverlayRef, } from "@angular/cdk/overlay";
@@ -14,7 +15,6 @@ import { Subject } from "rxjs";
 
 import { NgxMatLoadingComponent } from "./ngx-mat-loading.component";
 import { NgxMatLoadingElementOverlay } from "./ngx-mat-loading-element-overlay.service";
-import { DOCUMENT } from "@angular/common";
 import { NGX_MAT_LOADING_DEFAULT_OPTIONS, NgxMatLoadingOptions } from "./ngx-mat-loading.model";
 
 
