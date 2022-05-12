@@ -11,15 +11,17 @@
   </div>
 
   <div>
-    <app-test [ngxMatLoading]="cmpLoading1" class="cmpLoading1" #loading1="ngxMatLoading">1</app-test>
+    <app-test [ngxMatLoading]="cmpLoading1" [ngxMatLoadingOptions]="{spinner: false, message: 'Hello world'}"
+              class="cmpLoading1" #loading1="ngxMatLoading">1</app-test>
     <app-test [ngxMatLoading]="cmpLoading2" class="cmpLoading2">2</app-test>
     <app-test [ngxMatLoading]="cmpLoading3" class="cmpLoading3">3</app-test>
     <app-test [ngxMatLoading]="cmpLoading4" class="cmpLoading4">4</app-test>
 
-    <div class="example-box" cdkDrag>
+    <div class="example-box" cdkDrag [style.height.px]="cmpLoading2 ? 500 : 150">
       <h2>Drag me </h2>
-      <div [ngxMatLoading]="cmpLoading1" style="height: 150px;">
+      <div [ngxMatLoading]="cmpLoading1" style="height: 100%;">
         lorem ipsum dolor sit amet
+        <div style="height: 400px" *ngIf="cmpLoading2">XXXX</div>
       </div>
     </div>
 

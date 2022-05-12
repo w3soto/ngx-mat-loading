@@ -25,10 +25,10 @@ export class AppComponent {
   ) {}
 
   toggleLoading() {
-    this._loading.showLoading();
+    this._loading.showLoading({message: 'Lorem Ipsum', spinner: false});
     setTimeout( () => {
       this._loading.hideLoading();
-     }, 2000);
+     }, 8000);
   }
 
 }

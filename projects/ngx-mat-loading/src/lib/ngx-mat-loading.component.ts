@@ -1,12 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DoCheck, ElementRef, Input, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'ngx-mat-loading',
   templateUrl: './ngx-mat-loading.component.html',
   styleUrls: ['./ngx-mat-loading.component.scss'],
-  host: {
-    '[class]': 'backgroundClass'
-  }
 })
 export class NgxMatLoadingComponent implements OnInit {
 
@@ -14,7 +12,13 @@ export class NgxMatLoadingComponent implements OnInit {
   message?: string;
 
   @Input()
-  backgroundClass?: string;
+  diameter: number = 24;
+
+  @Input()
+  strokeWidth: number = 2;
+
+  @Input()
+  spinner: boolean = true;
 
   constructor() { }
 

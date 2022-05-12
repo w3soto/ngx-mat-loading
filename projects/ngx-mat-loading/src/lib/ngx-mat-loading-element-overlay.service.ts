@@ -4,7 +4,6 @@ import {
   Injectable,
   Injector,
   NgZone,
-  Renderer2,
   RendererFactory2
 } from "@angular/core";
 import {
@@ -45,7 +44,6 @@ export class NgxMatLoadingElementOverlayContainer extends OverlayContainer {
 export class NgxMatLoadingElementOverlay extends Overlay {
 
   private readonly _dynamicOverlayContainer: NgxMatLoadingElementOverlayContainer;
-  private renderer: Renderer2;
 
   constructor(
     scrollStrategies: ScrollStrategyOptions,
@@ -74,12 +72,10 @@ export class NgxMatLoadingElementOverlay extends Overlay {
       _location,
       _outsideClickDispatcher
     );
-    this.renderer = rendererFactory.createRenderer(null, null);
     this._dynamicOverlayContainer = _overlayContainer;
   }
 
   private setContainerElement(containerElement: HTMLElement): void {
-    //this.renderer.setStyle(containerElement, 'transform', 'translateZ(0)');
     this._dynamicOverlayContainer.setContainerElement(containerElement);
   }
 

@@ -1,2 +1,3 @@
 
-  <div>{{ message }}</div>
+  <mat-spinner *ngIf="spinner" [diameter]="diameter" [strokeWidth]="strokeWidth"></mat-spinner>
+  <div *ngIf="message">{{ message }}</div>

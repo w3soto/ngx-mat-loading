@@ -8,3 +8,15 @@
   overflow: hidden;
 
 }
+
+
+::ng-deep .ngx-mat-loading-backdrop {
+  cursor: wait;
+  * {
+    cursor: wait;
+  }
+}
+
+::ng-deep .ngx-mat-loading-panel {
+  cursor: wait;
+}
