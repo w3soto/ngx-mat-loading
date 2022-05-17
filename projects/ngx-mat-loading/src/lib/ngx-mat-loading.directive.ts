@@ -144,6 +144,8 @@ export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
 
     this._componentRef = this._overlayRef.attach(new ComponentPortal(this.componentType));
 
+    this._copyHostElementBorderRadius();
+
     this.update({
       ...this._defaults?.componentProps,
       ...this.componentProps,
