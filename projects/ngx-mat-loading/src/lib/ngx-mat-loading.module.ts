@@ -4,6 +4,7 @@ import { OverlayModule } from "@angular/cdk/overlay";
 
 import { NgxMatLoadingComponent } from './ngx-mat-loading.component';
 import { NgxMatLoadingDirective } from './ngx-mat-loading.directive';
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 
@@ -15,6 +16,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
   imports: [
     CommonModule,
     OverlayModule,
+    MatProgressBarModule,
     MatProgressSpinnerModule
   ],
   exports: [

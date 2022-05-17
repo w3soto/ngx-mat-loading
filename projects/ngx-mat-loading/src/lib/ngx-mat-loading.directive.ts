@@ -1,18 +1,18 @@
 import {
   ComponentRef,
-  Directive,
+  Directive, DoCheck,
   ElementRef, Inject,
   Input,
   isDevMode,
-  OnDestroy, Optional,
+  OnDestroy, OnInit, Optional,
   Renderer2
 } from '@angular/core';
 import { DOCUMENT } from "@angular/common";
 import { BooleanInput, coerceBooleanProperty } from "@angular/cdk/coercion";
-import { ComponentPortal } from "@angular/cdk/portal";
-import { OverlayRef, } from "@angular/cdk/overlay";
+import { ComponentPortal, ComponentType } from "@angular/cdk/portal";
+import { Overlay, OverlayRef, } from "@angular/cdk/overlay";
 
-import { NgxMatLoadingComponent } from "./ngx-mat-loading.component";
+import { NgxMatLoadingComponent, NgxMatLoadingComponentProps } from "./ngx-mat-loading.component";
 import { NgxMatLoadingElementOverlay } from "./ngx-mat-loading-element-overlay.service";
 import { NGX_MAT_LOADING_DEFAULT_OPTIONS, NgxMatLoadingOptions } from "./ngx-mat-loading.model";
 
@@ -21,15 +21,33 @@ import { NGX_MAT_LOADING_DEFAULT_OPTIONS, NgxMatLoadingOptions } from "./ngx-mat
   selector: '[ngxMatLoading]',
   exportAs: 'ngxMatLoading'
 })
-export class NgxMatLoadingDirective implements OnDestroy   {
+export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
 
   @Input('ngxMatLoading')
-  set show(show: BooleanInput) {
-    coerceBooleanProperty(show) ? this.showLoading() : this.hideLoading();
+  set _show(show: BooleanInput) {
+    coerceBooleanProperty(show) ? this.show() : this.hide();
   }
 
-  @Input('ngxMatLoadingOptions')
-  options?: NgxMatLoadingOptions;
+  @Input('ngxMatLoadingBackdropClass')
+  backdropClass?: string;
+
+  @Input('ngxMatLoadingPanelClass')
+  panelClass?: string;
+
+  @Input('ngxMatLoadingComponentType')
+  componentType: ComponentType<any> = NgxMatLoadingComponent;
+
+  @Input('ngxMatLoadingComponentProps')
+  componentProps?: NgxMatLoadingComponentProps | any;
+
+  @Input('ngxMatLoadingInnerOverlay')
+  set innerOverlay(val: BooleanInput) {
+    this._innerOverlay = coerceBooleanProperty(val);
+  }
+  get innerOverlay(): boolean {
+    return this._innerOverlay;
+  }
+  private _innerOverlay: boolean = false;
 
   get visible(): boolean {
     return this._visible;
@@ -37,7 +55,7 @@ export class NgxMatLoadingDirective implements OnDestroy   {
   private _visible: boolean = false;
 
   /**
-   * Overlay's component reference
+   * Loading overlay's component reference
    */
   get componentRef(): ComponentRef<any> | null | undefined {
     return this._componentRef;
@@ -51,57 +69,141 @@ export class NgxMatLoadingDirective implements OnDestroy   {
 
   constructor(
     private _elementRef: ElementRef,
-    private _overlay: NgxMatLoadingElementOverlay,
+    private _globalOverlay: Overlay,
+    private _elementOverlay: NgxMatLoadingElementOverlay,
     private _renderer: Renderer2,
     @Inject(DOCUMENT) private _document: Document,
     @Optional() @Inject(NGX_MAT_LOADING_DEFAULT_OPTIONS) private _defaults?: NgxMatLoadingOptions,
-  ) { }
-
-  ngOnDestroy() {
-    this.hideLoading();
+  ) {
+    // set defaults
+    this.componentType = this._defaults?.componentType || NgxMatLoadingComponent;
+    this.backdropClass = this._defaults?.backdropClass;
+    this.panelClass = this._defaults?.panelClass;
+    this.innerOverlay = this._defaults?.innerOverlay;
   }
 
-  showLoading(options?: NgxMatLoadingOptions) {
+  ngOnInit() {
+
+  }
+
+  ngOnDestroy() {
+    this.hide();
+  }
+
+  ngDoCheck() {
+    this.update();
+  }
+
+  show(props?: NgxMatLoadingComponentProps | any) {
+
     if (this._visible) {
+      this.update(props);
       return;
     }
     this._visible = true;
 
-    // fix position
-    this._setHostElementPosition();
-
-    const opts = {
-      ...this._defaults,
-      ...this.options,
-      ...options
-    };
-
     // add overlay
-    this._overlayRef = this._overlay.createFor(this._elementRef, {
-      positionStrategy: this._overlay.position()
-        .global()
-        .centerHorizontally()
-        .centerVertically(),
-      backdropClass: ['ngx-mat-loading-backdrop', opts?.backdropClass || 'cdk-overlay-dark-backdrop'],
-      panelClass: ['ngx-mat-loading-panel', opts?.panelClass || ''],
-      hasBackdrop: true
+    if (this.innerOverlay) {
+
+      // fix position
+      this._setHostElementPosition();
+
+      this._overlayRef = this._elementOverlay.createFor(this._elementRef, {
+        positionStrategy: this._elementOverlay.position()
+          .global()
+          .centerHorizontally()
+          .centerVertically(),
+        backdropClass: ['ngx-mat-loading-backdrop', this.backdropClass || ''],
+        panelClass: ['ngx-mat-loading-panel', this.panelClass || ''],
+        hasBackdrop: true
+      });
+
+    }
+    else {
+
+      this._overlayRef = this._globalOverlay.create({
+        positionStrategy: this._globalOverlay.position()
+          .flexibleConnectedTo(this._elementRef)
+          .setOrigin(this._elementRef)
+          .withPush(false)
+          .withPositions([
+            {
+              originX: 'start',
+              originY: 'top',
+              overlayX: 'start',
+              overlayY: 'top'
+            }
+          ]),
+        scrollStrategy: this._globalOverlay.scrollStrategies.reposition(),
+        panelClass: ['ngx-mat-loading-backdrop', 'ngx-mat-loading-panel',
+          this.backdropClass || '', this.panelClass || ''],
+        hasBackdrop: false,
+      });
+
+    }
+
+    this._componentRef = this._overlayRef.attach(new ComponentPortal(this.componentType));
+
+    this.update({
+      ...this._defaults?.componentProps,
+      ...this.componentProps,
+      ...props
     });
 
-    this._componentRef = this._overlayRef.attach(new ComponentPortal(opts.component || NgxMatLoadingComponent));
-
-    if (opts.params) {
-      const instance = this._componentRef.instance;
-      Object.keys(opts.params).forEach(k => instance[k] = opts.params[k])
-    }
   }
 
-  hideLoading() {
+  /**
+   * Update loading overlay position and content component
+   * @param params
+   */
+  update(params?: NgxMatLoadingComponentProps | any) {
+
+    // update inner content
+    const instance = this._componentRef?.instance;
+    if (params && instance) {
+      Object.keys(params).forEach(k => instance[k] = params[k])
+    }
+
+    // update size and position
+    this._overlayRef?.updateSize({
+      width: this._elementRef.nativeElement.offsetWidth,
+      height: this._elementRef.nativeElement.offsetHeight,
+    });
+    this._overlayRef?.updatePosition();
+
+  }
+
+  hide() {
+    this._overlayRef?.detach();
     this._overlayRef?.dispose();
-    this._restoreHostElementPosition();
+
+    if (this.innerOverlay) {
+      this._restoreHostElementPosition();
+    }
+
     this._visible = false;
   }
 
+  /**
+   * Copy border radius styles from host element.
+   * @private
+   */
+  _copyHostElementBorderRadius() {
+    const style: any = this._document.defaultView?.getComputedStyle(this._elementRef.nativeElement);
+    [
+      'border-top-left-radius', 'border-top-right-radius', 'border-bottom-left-radius', 'bottom-right-radius',
+      'border-start-start-radius', 'border-start-end-radius', 'border-end-start-radius', 'border-end-end-radius'
+    ].forEach(corner => {
+      this._renderer.setStyle(this._overlayRef!.overlayElement, corner, style[corner]);
+    });
+  }
+
+  /**
+   * Fix host element position when using innerOverlay
+   * @private
+   */
   _setHostElementPosition() {
+
     this._elementPosition = null;
 
     const style = this._document.defaultView?.getComputedStyle(this._elementRef.nativeElement);
@@ -116,6 +218,10 @@ export class NgxMatLoadingDirective implements OnDestroy   {
     }
   }
 
+  /**
+   * Restore host element position when using innerOverlay
+   * @private
+   */
   _restoreHostElementPosition() {
     if (this._elementPosition) {
       this._renderer.setStyle(this._elementRef.nativeElement, 'position',
