@@ -64,6 +64,16 @@ export class NgxMatLoadingService implements OnDestroy {
 
     this._componentRef = this._overlayRef.attach(new ComponentPortal(config.componentType));
 
+    if (config.componentClass) {
+      this._renderer.addClass(this._componentRef!.location.nativeElement, config.componentClass);
+    }
+
+    if (config.componentStyle) {
+      Object.keys(config.componentStyle).forEach(k => {
+        this._renderer.setStyle(this._componentRef!.location.nativeElement, k, config.componentStyle![k]);
+      });
+    }
+
     this.update({
       ...this._defaults?.componentProps,
       ...options?.componentProps,

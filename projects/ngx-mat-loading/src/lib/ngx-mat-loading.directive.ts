@@ -37,6 +37,12 @@ export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
   @Input('ngxMatLoadingComponentType')
   componentType: ComponentType<any> = NgxMatLoadingComponent;
 
+  @Input('ngxMatLoadingComponentClass')
+  componentClass?: string;
+
+  @Input('ngxMatLoadingComponentStyle')
+  componentStyle?: {[key:string]: string};
+
   @Input('ngxMatLoadingComponentProps')
   componentProps?: NgxMatLoadingComponentProps | any;
 
@@ -77,6 +83,8 @@ export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
   ) {
     // set defaults
     this.componentType = this._defaults?.componentType || NgxMatLoadingComponent;
+    this.componentClass = this._defaults?.componentClass;
+    this.componentStyle = this._defaults?.componentStyle;
     this.backdropClass = this._defaults?.backdropClass;
     this.panelClass = this._defaults?.panelClass;
     this.innerOverlay = this._defaults?.innerOverlay;
@@ -143,6 +151,16 @@ export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
     }
 
     this._componentRef = this._overlayRef.attach(new ComponentPortal(this.componentType));
+
+    if (this.componentClass) {
+      this._renderer.addClass(this._componentRef!.location.nativeElement, this.componentClass);
+    }
+
+    if (this.componentStyle) {
+      Object.keys(this.componentStyle).forEach(k => {
+        this._renderer.setStyle(this._componentRef!.location.nativeElement, k, this.componentStyle![k]);
+      });
+    }
 
     this.update({
       ...this._defaults?.componentProps,
