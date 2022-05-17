@@ -5,7 +5,6 @@ import { MatButtonModule } from "@angular/material/button";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-//import { OverlayModule } from "@angular/cdk/overlay";
 import { NgxMatLoadingModule } from "../../../ngx-mat-loading/src/lib/ngx-mat-loading.module";
 import { CustomLoadingComponent } from "./custom-loading/custom-loading.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
@@ -32,7 +31,18 @@ import { NGX_MAT_LOADING_DEFAULT_OPTIONS } from "../../../ngx-mat-loading/src/li
 
     NgxMatLoadingModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: NGX_MAT_LOADING_DEFAULT_OPTIONS, useValue: {
+        backdropClass: 'ngx-mat-loading-dark-backdrop',
+        //blockScroll: true,
+        innerOverlay: false,
+        //componentType: CustomLoadingComponent,
+        componentClass: 'my-loading',
+        componentProps: { indicator: 'bar', text: 'LOADING...' }
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

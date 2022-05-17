@@ -35,6 +35,16 @@ export interface NgxMatLoadingOptions {
   componentType?: ComponentType<any>;
 
   /**
+   * Loading's overlay content component's CSS class.
+   */
+  componentClass?: string;
+
+  /**
+   * Loading's overlay content component's CSS style.
+   */
+  componentStyle?: {[key: string]: string};
+
+  /**
    * Loading's overlay content component properties (inputs).
    */
   componentProps?: NgxMatLoadingComponentProps | any;
