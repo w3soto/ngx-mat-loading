@@ -1,28 +1,73 @@
 
 
+  <mat-card>
 
-  <button mat-stroked-button (click)="toggleLoading()">Global overlay</button>
+    <mat-card-content class="settings">
 
-  <div>
-    <button mat-stroked-button (click)="cmpLoading1 = !cmpLoading1">Component 1</button>
-    <button mat-stroked-button (click)="cmpLoading2 = !cmpLoading2">Component 2</button>
-    <button mat-stroked-button (click)="cmpLoading3 = !cmpLoading3">Component 3</button>
-    <button mat-stroked-button (click)="cmpLoading4 = !cmpLoading4">Component 4</button>
-  </div>
+      <div class="config">
 
-  <div>
-    <app-test [ngxMatLoading]="cmpLoading1" [ngxMatLoadingOptions]="{spinner: false, message: 'Hello world'}"
-              class="cmpLoading1" #loading1="ngxMatLoading">1</app-test>
-    <app-test [ngxMatLoading]="cmpLoading2" class="cmpLoading2">2</app-test>
-    <app-test [ngxMatLoading]="cmpLoading3" class="cmpLoading3">3</app-test>
-    <app-test [ngxMatLoading]="cmpLoading4" class="cmpLoading4">4</app-test>
-
-    <div class="example-box" cdkDrag [style.height.px]="cmpLoading2 ? 500 : 150">
-      <h2>Drag me </h2>
-      <div [ngxMatLoading]="cmpLoading1" style="height: 100%;">
-        lorem ipsum dolor sit amet
-        <div style="height: 400px" *ngIf="cmpLoading2">XXXX</div>
       </div>
+
+      <div class="controls">
+        <button mat-stroked-button color="accent" (click)="showGlobalLoading()">Global loading</button>
+        <mat-checkbox [(ngModel)]="cmpLoading1">Card 1</mat-checkbox>
+        <mat-checkbox [(ngModel)]="cmpLoading2">Card 2</mat-checkbox>
+        <mat-checkbox [(ngModel)]="cmpLoading3">Card 3</mat-checkbox>
+        <mat-checkbox [(ngModel)]="cmpLoading4">Card 4</mat-checkbox>
+      </div>
+
+    </mat-card-content>
+
+  </mat-card>
+
+  <div class="cards">
+
+    <mat-card
+      class="card1 mat-elevation-z6"
+      [ngxMatLoading]="cmpLoading1"
+      [ngxMatLoadingComponentProps]="{indicator: 'bar', text: 'Loading Card 1\n(inner=true)'}">
+      <mat-card-title>Card 1</mat-card-title>
+      <mat-card-content>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card
+      class="card2 mat-elevation-z6"
+      [ngxMatLoading]="cmpLoading2"
+      [ngxMatLoadingComponentProps]="{indicator: 'spinner', indicatorColor: 'accent', text: 'Loading Card 2\n(inner=false)'}">
+      <mat-card-title>Card 2</mat-card-title>
+      <mat-card-content>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </mat-card-content>
+    </mat-card>
+
+    <div
+      class="card3 mat-elevation-z6"
+      [ngxMatLoading]="cmpLoading3"
+      ngxMatLoadingBackdropClass="ngx-mat-loading-light-backdrop"
+      [ngxMatLoadingComponentType]="customLoadingComponent">
+      <h2>Card 3</h2>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    </div>
+
+    <div
+      cdkDrag
+      (cdkDragMoved)="loading4.update()"
+      class="card4 mat-elevation-z6">
+      <h2>Card 4 (draggable)</h2>
+      <p
+        #loading4="ngxMatLoading"
+        [ngxMatLoading]="cmpLoading4"
+        ngxMatLoadingInnerOverlay
+        ngxMatLoadingBackdropClass="ngx-mat-loading-transparent-backdrop"
+        [ngxMatLoadingComponentProps]="{ indicatorColor: 'accent' }">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
     </div>
 
   </div>

@@ -3,59 +3,15 @@
 @import '@angular/cdk/overlay-prebuilt.css';
 
 
-.cmpLoading1 {
-  margin: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 150px;
-  height: 150px;
-  background-color: aqua;
+@import "../../../projects/ngx-mat-loading/ngx-mat-loading.css";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 16px;
 }
 
-.cmpLoading2 {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 50px;
-  background-color: orange;
-
-  position: absolute;
-  left: 50%;
-  top: 50%;
-}
-
-.cmpLoading3 {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 150px;
-  background-color: yellowgreen;
-}
-
-.cmpLoading4 {
-  margin: 100px;
-}
-
-
-.example-box {
-  width: 200px;
-  border: solid 1px #ccc;
-  color: rgba(0, 0, 0, 0.87);
-  cursor: move;
-  text-align: center;
-  background: #fff;
-  border-radius: 4px;
-  position: relative;
-  z-index: 1;
-  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
-  0 2px 2px 0 rgba(0, 0, 0, 0.14),
-  0 1px 5px 0 rgba(0, 0, 0, 0.12);
-}
-
-.example-box:active {
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+.xxx {
+  border: solid 4px red;
 }

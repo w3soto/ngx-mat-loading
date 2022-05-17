@@ -1,5 +1,6 @@
-import { Component, Directive, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgxMatLoadingService } from "../../../ngx-mat-loading/src/lib/ngx-mat-loading.service";
+import { CustomLoadingComponent } from "./custom-loading/custom-loading.component";
 import { NgxMatLoadingDirective } from "../../../ngx-mat-loading/src/lib/ngx-mat-loading.directive";
 
 
@@ -17,18 +18,40 @@ export class AppComponent {
   cmpLoading3: boolean = false;
   cmpLoading4: boolean = false;
 
-  @ViewChild('loading1', {static: true})
-  loading1!: NgxMatLoadingDirective;
+  customLoadingComponent = CustomLoadingComponent;
 
   constructor(
     private _loading: NgxMatLoadingService
   ) {}
 
-  toggleLoading() {
-    this._loading.showLoading({message: 'Lorem Ipsum', spinner: false});
+  showGlobalLoading() {
+
+    this._loading.show({
+      mode: "determinate",
+      value: 0,
+      text: 'Processing 0%...'
+    }, {
+      //componentType: CustomLoadingComponent
+    });
+
+    let val = 1;
+    let interval = setInterval(() => {
+      this._loading.update({value: val, text: 'Processing ' + val + '%...'});
+      val += 1;
+    }, 50);
+
     setTimeout( () => {
-      this._loading.hideLoading();
-     }, 8000);
+      clearInterval(interval);
+     }, 5000);
+
+    setTimeout( () => {
+      this._loading.hide();
+    }, 6000);
+  }
+
+  showLoading1() {
+    this.cmpLoading1 = true;
+    setTimeout( () => this.cmpLoading1 = false, 2000);
   }
 
 }
