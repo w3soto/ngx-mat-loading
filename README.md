@@ -1,27 +1,68 @@
 # NgxMatLoading
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
+Customizable Loading overlay service and directive for Angular Material.
 
-## Development server
+## Features
+* Global or Element/Component overlay
+* Custom inner component 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## TODO
+* Tests
+* Documentation 
 
-## Code scaffolding
+## Installation
+```shell
+npm -i ngx-mat-loading
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Example
 
-## Build
+## Services
+ 
+### NgxMatLoading 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+#### Properties
 
-## Running unit tests
+| Property | Description |
+| :------- | :---------- |
+| visible: boolean | |
+| componentRef?: ComponentRef&lt;any&gt;  | Reference to inner loading component. |
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+#### Methods
 
-## Running end-to-end tests
+| Method | Description |
+| :----- | :---------- |
+| show(props?: NgxMatLoadingComponentProps &#124; any): void | Show overlay. |
+| update(props?: NgxMatLoadingComponentProps &#124; any): void | Update overlay's component content. |
+| hide(): void | Hide overlay.|
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Directives
 
-## Further help
+### NgxMatLoadingDirective 
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Selector: **ngxMatLoading**
+Exported as: **ngxMatLoading**
+
+#### Properties
+
+| Property | Description |
+| :------- | :---------- |
+| @Input('ngxMatLoading')<br>show: boolean | |
+| @Input('ngxMatLoadingBackdropClass')<br>backdropClass?: string | |
+| @Input('ngxMatLoadingPanelClass')<br>panelClass?: string | |
+| @Input('ngxMatLoadingComponentType')<br>componentType?: ComponentType&lt;any&gt;  | |
+| @Input('ngxMatLoadingComponentProps')<br>componentProps?: NgxMatLoadingComponentProps &#124; any | |
+| @Input('ngxMatLoadingInnerOverlay')<br>innerOverlay: boolean | Default false.|
+| visible: boolean | |
+| componentRef?: ComponentRef&lt;any&gt; | Reference to inner loading component. |
+
+#### Methods
+
+| Method | Description |
+| :----- | :---------- |
+| show(props?: NgxMatLoadingComponentProps &#124; any): void | Show overlay. |
+| update(props?: NgxMatLoadingComponentProps &#124; any): void | Update overlay's component content. |
+| hide(): void | Hide overlay.|
+
+
+
