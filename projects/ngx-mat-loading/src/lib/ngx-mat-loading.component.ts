@@ -1,4 +1,15 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+
+
+export interface NgxMatLoadingComponentProps {
+  indicator?: 'none' | 'spinner' | 'bar';
+  mode?: 'determinate' | 'indeterminate';
+  value?: number;
+  text?: string;
+  indicatorDiameter?: number;
+  indicatorWidth?: number;
+  indicatorColor?: string;
+}
 
 
 @Component({
@@ -10,23 +21,27 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
     'class': 'ngx-mat-loading'
   }
 })
-export class NgxMatLoadingComponent implements OnInit {
+export class NgxMatLoadingComponent {
 
   @Input()
-  message?: string;
+  indicator: 'none' | 'spinner' | 'bar' = 'spinner';
 
   @Input()
-  diameter: number = 24;
+  mode: 'determinate' | 'indeterminate' = 'indeterminate';
 
   @Input()
-  strokeWidth: number = 2;
+  value: number = 0;
 
   @Input()
-  spinner: boolean = true;
+  text?: string;
 
-  constructor() { }
+  @Input()
+  indicatorDiameter: number = 32;
 
-  ngOnInit(): void {
-  }
+  @Input()
+  indicatorWidth: number = 4;
+
+  @Input()
+  indicatorColor: string = 'primary';
 
 }

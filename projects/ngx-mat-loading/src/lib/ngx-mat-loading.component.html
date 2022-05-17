@@ -1,9 +1,20 @@
 <mat-spinner
-  *ngIf="spinner"
+  *ngIf="indicator=='spinner'"
   class="ngx-mat-loading-spinner"
-  [diameter]="diameter"
-  [strokeWidth]="strokeWidth"></mat-spinner>
+  [mode]="mode"
+  [value]="value"
+  [color]="indicatorColor"
+  [diameter]="indicatorDiameter"
+  [strokeWidth]="indicatorWidth"></mat-spinner>
 
 <div
-  *ngIf="message"
-  class="ngx-mat-loading-message">{{ message }}</div>
+  *ngIf="text"
+  class="ngx-mat-loading-text">{{ text }}</div>
+
+<mat-progress-bar
+  *ngIf="indicator=='bar'"
+  class="ngx-mat-loading-bar"
+  [mode]="mode"
+  [value]="value"
+  [ngStyle]="{height: indicatorWidth + 'px'}"
+  [color]="indicatorColor"></mat-progress-bar>

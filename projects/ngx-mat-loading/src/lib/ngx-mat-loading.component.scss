@@ -6,23 +6,23 @@
   overflow: hidden;
   gap: 8px;
 
+  background-color: white;
+  color: #000;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,.12);
+
   &-spinner {
   }
 
-  &-message {
+  &-text {
+    text-align: center;
     font-size: .8em;
+    white-space: pre;
+  }
+
+  &-bar {
   }
 }
 
-
-.ngx-mat-loading-backdrop {
-  cursor: wait;
-  backdrop-filter: blur(1px);
-  background-color: rgba(255, 255, 255, .64);
-}
-
-
-.ngx-mat-loading-panel {
-  cursor: wait;
-}
 
