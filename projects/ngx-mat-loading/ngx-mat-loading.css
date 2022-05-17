@@ -1,0 +1,25 @@
+
+.ngx-mat-loading-backdrop {
+  cursor: wait;
+  backdrop-filter: blur(1px);
+  transition: backdrop-filter, background-color .2s ease-in-out;
+}
+
+.ngx-mat-loading-transparent-backdrop {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.ngx-mat-loading-light-backdrop {
+  background-color: rgba(255, 255, 255, .32);
+}
+
+.ngx-mat-loading-dark-backdrop {
+  background-color: rgba(0, 0, 0, .32);
+}
+
+.ngx-mat-loading-panel {
+  cursor: wait;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
