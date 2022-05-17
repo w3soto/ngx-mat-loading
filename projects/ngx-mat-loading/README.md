@@ -26,7 +26,7 @@ npm -i ngx-mat-loading
 | Property | Description |
 | :------- | :---------- |
 | visible: boolean | |
-| componentRef?: ComponentRef<any> | Reference to inner loading component. |
+| componentRef?: ComponentRef&lt;any&gt;  | Reference to inner loading component. |
 
 #### Methods
 
@@ -48,13 +48,15 @@ Exported as: **ngxMatLoading**
 | Property | Description |
 | :------- | :---------- |
 | @Input('ngxMatLoading')<br>show: boolean | |
-| @Input('ngxMatLoadingBackdropClass)<br>backdropClass?: string | |
-| @Input('ngxMatLoadingPanelClass)<br>panelClass?: string | |
-| @Input('ngxMatLoadingComponentType)<br>componentType?: ComponentType<any> | |
-| @Input('ngxMatLoadingComponentProps)<br>componentProps?: NgxMatLoadingComponentProps &#124; any | |
-| @Input('ngxMatLoadingInnerOverlay)<br>innerOverlay: boolean | Default false.|
+| @Input('ngxMatLoadingBackdropClass')<br>backdropClass?: string | |
+| @Input('ngxMatLoadingPanelClass')<br>panelClass?: string | |
+| @Input('ngxMatLoadingComponentType')<br>componentType?: ComponentType&lt;any&gt;  | |
+| @Input('ngxMatLoadingComponentProps')<br>componentProps?: NgxMatLoadingComponentProps &#124; any | |
+| @Input('ngxMatLoadingInnerOverlay')<br>innerOverlay: boolean | Default false.|
 | visible: boolean | |
-| componentRef?: ComponentRef<any> | Reference to inner loading component. |
+| componentRef?: ComponentRef&lt;any&gt; | Reference to inner loading component. |
+
+#### Methods
 
 | Method | Description |
 | :----- | :---------- |
