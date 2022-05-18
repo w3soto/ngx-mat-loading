@@ -217,11 +217,17 @@ export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
    */
   _copyHostElementBorderRadius() {
     const style: any = this._document.defaultView?.getComputedStyle(this._elementRef.nativeElement);
+
     [
-      'border-top-left-radius', 'border-top-right-radius', 'border-bottom-left-radius', 'bottom-right-radius',
+      'border-top-left-radius', 'border-top-right-radius', 'border-bottom-left-radius', 'border-bottom-right-radius',
       'border-start-start-radius', 'border-start-end-radius', 'border-end-start-radius', 'border-end-end-radius'
     ].forEach(corner => {
-      this._renderer.setStyle(this._overlayRef!.overlayElement, corner, style[corner]);
+      // only for inner overlay
+      if (this._overlayRef?.backdropElement) {
+        this._renderer.setStyle(this._overlayRef?.backdropElement, corner, style[corner]);
+      }
+      this._renderer.setStyle(this._overlayRef?.hostElement, corner, style[corner]);
+      this._renderer.setStyle(this._overlayRef?.overlayElement, corner, style[corner]);
     });
   }
 

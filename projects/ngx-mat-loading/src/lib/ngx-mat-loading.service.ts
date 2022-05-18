@@ -62,7 +62,7 @@ export class NgxMatLoadingService implements OnDestroy {
     this._overlayRef = this._overlay.create({
       scrollStrategy: config.blockScroll ? this._overlay.scrollStrategies.block() : this._overlay.scrollStrategies.reposition(),
       positionStrategy: this._overlay.position().global().centerHorizontally().centerVertically(),
-      backdropClass: ['ngx-mat-loading-backdrop', config.backdropClass],
+      backdropClass: ['ngx-mat-global-loading-backdrop', 'ngx-mat-loading-backdrop', config.backdropClass],
       panelClass: ['ngx-mat-loading-panel', config.panelClass],
       hasBackdrop: true
     });
