@@ -33,13 +33,18 @@ export class NgxMatLoadingService implements OnDestroy {
     private _rendererFactory: RendererFactory2,
     @Optional() @Inject(NGX_MAT_LOADING_DEFAULT_OPTIONS) private _defaults?: NgxMatLoadingOptions
   ) {
-    this._renderer = _rendererFactory.createRenderer(null, null);
+    this._renderer = this._rendererFactory.createRenderer(null, null);
   }
 
   ngOnDestroy() {
     this.hide();
   }
 
+  /**
+   * Show global loading overlay
+   * @param props
+   * @param options
+   */
   show(props?: NgxMatLoadingComponentProps | any, options?: NgxMatLoadingOptions) {
     if (this._visible) {
       return;
@@ -81,13 +86,20 @@ export class NgxMatLoadingService implements OnDestroy {
     });
   }
 
-  update(params?: NgxMatLoadingComponentProps | any) {
+  /**
+   * Update global loading overlay's content component
+   * @param props
+   */
+  update(props?: NgxMatLoadingComponentProps | any) {
     const instance = this._componentRef?.instance;
-    if (params && instance) {
-      Object.keys(params).forEach(k => instance[k] = params[k]);
+    if (props && instance) {
+      Object.keys(props).forEach(k => instance[k] = props[k]);
     }
   }
 
+  /**
+   * Remove global loading overlay
+   */
   hide() {
     this._overlayRef?.dispose();
     this._visible = false;

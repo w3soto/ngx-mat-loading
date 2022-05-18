@@ -102,6 +102,10 @@ export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
     this.update();
   }
 
+  /**
+   * Show loading overlay
+   * @param props
+   */
   show(props?: NgxMatLoadingComponentProps | any) {
 
     if (this._visible) {
@@ -174,14 +178,14 @@ export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
 
   /**
    * Update loading overlay position and content component
-   * @param params
+   * @param props
    */
-  update(params?: NgxMatLoadingComponentProps | any) {
+  update(props?: NgxMatLoadingComponentProps | any) {
 
     // update inner content
     const instance = this._componentRef?.instance;
-    if (params && instance) {
-      Object.keys(params).forEach(k => instance[k] = params[k])
+    if (props && instance) {
+      Object.keys(props).forEach(k => instance[k] = props[k])
     }
 
     // update size and position
@@ -193,6 +197,9 @@ export class NgxMatLoadingDirective implements OnInit, OnDestroy, DoCheck   {
 
   }
 
+  /**
+   * Remove loading overlay
+   */
   hide() {
     this._overlayRef?.detach();
     this._overlayRef?.dispose();

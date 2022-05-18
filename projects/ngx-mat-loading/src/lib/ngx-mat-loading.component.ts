@@ -2,12 +2,39 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 
 
 export interface NgxMatLoadingComponentProps {
-  indicator?: 'none' | 'spinner' | 'bar';
-  mode?: 'determinate' | 'indeterminate';
-  value?: number;
+  /**
+   * Loading message
+   */
   text?: string;
+
+  /**
+   * Spinner's or Bar's value. Works only with 'spinner' or 'bar' indicator with 'determinate' mode.
+   */
+  value?: number;
+
+  /**
+   * Spinner's or Bar's mode
+   */
+  mode?: 'indeterminate' | 'determinate';
+
+  /**
+   * Show progress with MatSpinner or MatProgressBar.
+   */
+  indicator?: 'none' | 'spinner' | 'bar';
+
+  /**
+   * Spinner's diameter
+   */
   indicatorDiameter?: number;
+
+  /**
+   * Spinner's stroke width or Bar width
+   */
   indicatorWidth?: number;
+
+  /**
+   * Spinner or Bar color
+   */
   indicatorColor?: string;
 }
 
@@ -21,13 +48,13 @@ export interface NgxMatLoadingComponentProps {
     'class': 'ngx-mat-loading'
   }
 })
-export class NgxMatLoadingComponent {
+export class NgxMatLoadingComponent implements NgxMatLoadingComponentProps {
 
   @Input()
-  indicator: 'none' | 'spinner' | 'bar' = 'spinner';
+  indicator: 'none' | 'spinner' | 'bar' = 'none';
 
   @Input()
-  mode: 'determinate' | 'indeterminate' = 'indeterminate';
+  mode: 'indeterminate' | 'determinate' = 'indeterminate';
 
   @Input()
   value: number = 0;
