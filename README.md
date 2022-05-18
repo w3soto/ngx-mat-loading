@@ -2,6 +2,8 @@
 
 Customizable Loading overlay service and directive for Angular Material.
 
+[StackBlitz Demo](https://stackblitz.com/edit/angular-ivy-zbwy3g)
+
 ## Features
 * Global or Element/Component overlay
 * Custom inner component 
@@ -13,6 +15,40 @@ Customizable Loading overlay service and directive for Angular Material.
 ## Installation
 ```shell
 npm -i ngx-mat-loading
+```
+
+Update *angular.json*
+```json
+  ...
+  "styles": [
+    "node_modules/ngx-mat-loading/ngx-mat-loading.css",
+    "src/styles.scss"
+  ],
+  ...
+```
+
+Import and configure
+```typescript
+import { NgxMatLoadingModule, NGX_MAT_LOADING_DEFAULT_OPTIONS } from "ngx-mat-loading";
+
+@NgModule({
+  ...,
+  imports: [
+    NgxMatLoadingModule
+  ],
+  providers: [
+    {
+      provide: NGX_MAT_LOADING_DEFAULT_OPTIONS, 
+      useValue: {
+        backdropClass: 'ngx-mat-loading-dark-backdrop',
+        innerOverlay: true,
+        componentClass: 'my-loading-component', 
+        componentProps: { indicator: 'bar', text: 'LOADING...' }
+      }
+    }
+  ],
+  ...
+})
 ```
 
 ## Example
@@ -70,29 +106,6 @@ export class MyComponent {
 </div>
 
 <button (click)="loading = !loading">Toggle loading</button>
-```
-
-#### Configure defaults
-```typescript
-import { NgxMatLoadingModule, NGX_MAT_LOADING_DEFAULT_OPTIONS } from "ngx-mat-loading";
-
-@NgModule({
-  ...,
-  providers: [
-    {
-      provide: NGX_MAT_LOADING_DEFAULT_OPTIONS, 
-      useValue: {
-        backdropClass: 'ngx-mat-loading-dark-backdrop',
-        innerOverlay: true,
-        componentClass: 'my-loading-component', 
-        componentProps: { indicator: 'bar', text: 'LOADING...' }
-      }
-    }
-  ],
-  ...
-})
-export class AppModule { }
-
 ```
 
 ## Services
