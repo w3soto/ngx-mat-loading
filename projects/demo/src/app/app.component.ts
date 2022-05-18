@@ -1,7 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgxMatLoadingService } from "../../../ngx-mat-loading/src/lib/ngx-mat-loading.service";
 import { CustomLoadingComponent } from "./custom-loading/custom-loading.component";
-import { NgxMatLoadingDirective } from "../../../ngx-mat-loading/src/lib/ngx-mat-loading.directive";
+import { of } from "rxjs";
+import { concatMap, delay, finalize, tap } from "rxjs/operators";
 
 
 @Component({
@@ -28,25 +29,18 @@ export class AppComponent {
 
     this._loading.show({
       mode: "determinate",
-      value: 0,
-      text: 'Processing 0%...'
+      text: 'Starting...'
     }, {
-      //componentType: CustomLoadingComponent
+      componentStyle: {
+        'width': '150px'
+      }
     });
 
-    let val = 1;
-    let interval = setInterval(() => {
-      this._loading.update({value: val, text: 'Processing ' + val + '%...'});
-      val += 1;
-    }, 50);
-
-    setTimeout( () => {
-      clearInterval(interval);
-     }, 5000);
-
-    setTimeout( () => {
-      this._loading.hide();
-    }, 6000);
+    of(0, 3, 15, 34, 62, 63, 64, 65, 99, 100).pipe(
+      concatMap(x => of(x).pipe(delay(200 + Math.round(Math.random()*800)))),
+      tap(v => this._loading.update({ value: v, text: `Processing ${v}%...` })),
+      finalize(() => this._loading.hide())
+    ).subscribe();
   }
 
   showLoading1() {
