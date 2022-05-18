@@ -6,7 +6,7 @@ Customizable Loading overlay service and directive for Angular Material.
 
 ## Features
 * Global or Element/Component overlay
-* Custom inner component 
+* Custom inner component
 
 ## TODO
 * Tests
@@ -19,12 +19,10 @@ npm -i ngx-mat-loading
 
 Update *angular.json*
 ```json
-  ...
   "styles": [
     "node_modules/ngx-mat-loading/ngx-mat-loading.css",
     "src/styles.scss"
-  ],
-  ...
+  ]
 ```
 
 Import and configure
@@ -141,9 +139,11 @@ Exported as: **ngxMatLoading**
 | @Input('ngxMatLoading')<br>show: boolean | |
 | @Input('ngxMatLoadingBackdropClass')<br>backdropClass?: string | |
 | @Input('ngxMatLoadingPanelClass')<br>panelClass?: string | |
+| @Input('ngxMatLoadingInnerOverlay')<br>innerOverlay: boolean | Default false.|
 | @Input('ngxMatLoadingComponentType')<br>componentType?: ComponentType&lt;any&gt;  | |
 | @Input('ngxMatLoadingComponentProps')<br>componentProps?: NgxMatLoadingComponentProps &#124; any | |
-| @Input('ngxMatLoadingInnerOverlay')<br>innerOverlay: boolean | Default false.|
+| @Input('ngxMatLoadingComponentClass')<br>componentClass?: string | |
+| @Input('ngxMatLoadingComponentStyle')<br>componentStyle?: {[key:string]: string} | |
 | visible: boolean | |
 | componentRef?: ComponentRef&lt;any&gt; | Reference to inner loading component. |
 
